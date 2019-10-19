@@ -7,11 +7,18 @@
     "dev": "nodemon -L node ./bin/www"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "jwt-simple": "^0.5.6",
+    "mongoose": "^5.7.5",
+    "morgan": "~1.9.1",
+    "nodemon": "^1.19.4",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "sha256": "^0.2.0"
   }
 }
