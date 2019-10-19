@@ -14,7 +14,7 @@ const jwtOptions = {
 
 const jwtAuth = new JwtStrategy(jwtOptions, async (payload, done) => {
   const user = await findByUsername(payload);
-  if (user) done(null, true);
+  if (user) done(null, user._id);
   else done(null, false);
 });
 
@@ -30,7 +30,7 @@ const loginMiddleware = async (req, res, next) => {
 
 const findByUsername = async payload => {
   const user = await UserModel.findOne({
-    username: payload.sub
+    _id: payload.uid
   });
   return user;
 };

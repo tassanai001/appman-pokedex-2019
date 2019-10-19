@@ -8,7 +8,7 @@ const seed = require("./seed/index").seed;
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const pokedexesRouter = require("./routes/pokedexes");
+const pokemonRouter = require("./routes/pokemon");
 
 seed();
 
@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/login", indexRouter);
 app.use("/users", usersRouter);
-app.use("/pokedexes", pokedexesRouter);
+app.use("/pokemon", pokemonRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

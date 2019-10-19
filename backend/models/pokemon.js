@@ -28,7 +28,7 @@ const weaknessesModel = new mongoose.Schema({
   }
 });
 
-const pokedexSchema = new mongoose.Schema({
+const PokemonSchema = new mongoose.Schema({
   name: {
     type: String
   },
@@ -97,10 +97,10 @@ const pokedexSchema = new mongoose.Schema({
   type: {
     type: String
   },
-  create_date: { type: Date, default: Date.now },
-  update_date: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
-const Pokedexs = Connector.model("Pokedexs", pokedexSchema);
+const Pokemon = Connector.model("Pokemon", PokemonSchema);
 
-module.exports.model = Pokedexs;
+module.exports.model = Pokemon;
