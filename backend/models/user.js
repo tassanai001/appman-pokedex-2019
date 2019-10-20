@@ -9,8 +9,7 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   password: {
-    type: String,
-    unique: true
+    type: String
   },
   pokemonId: [ObjectId],
   createdAt: { type: Date, default: Date.now },

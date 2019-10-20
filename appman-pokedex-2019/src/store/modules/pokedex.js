@@ -12,7 +12,6 @@ export default {
   },
   mutations: {
     UPDATE_POKEMONDEXLIST_MUTATION(state, response) {
-      console.log("response.data:---> ", response); // eslint-disable-line
       if (response.data) {
         state.pokedexLists = response.data;
       }

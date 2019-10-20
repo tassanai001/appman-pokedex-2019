@@ -90,7 +90,10 @@ router.get("/pokedexbyuserid/:userid", requireJWTAuth, async function(
         _id: { $in: results.pokemonId }
       });
       const reformat = formatResult(pokemonLists);
-      res.status(200).send({ pokemonLists: reformat });
+      const equal =
+        JSON.parse(JSON.stringify(req.user)) ===
+        JSON.parse(JSON.stringify(req.params.userid));
+      res.status(200).send({ pokemonLists: reformat, isOwner: equal });
     }
   } else {
     res.status(404).send("Not Found!");
@@ -104,6 +107,13 @@ router.post("/pokedexlists", requireJWTAuth, async function(req, res) {
   } else {
     res.status(200).send([]);
   }
+});
+
+router.get("/isAddpokedex/:userid", requireJWTAuth, async function(req, res) {
+  const equal =
+    JSON.parse(JSON.stringify(req.user)) ===
+    JSON.parse(JSON.stringify(req.params.userid));
+  res.send({ isOwner: equal });
 });
 
 module.exports = router;

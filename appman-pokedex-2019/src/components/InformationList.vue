@@ -4,6 +4,7 @@
     <h1>
       Pokedex #{{$route.query.index}}
       <router-link
+        v-show="isOwner"
         :to="`/addpokedex/?pokedexId=${$route.query.id}&index=${$route.query.index}`"
         class="add-pokemon"
       >Add Pokemon</router-link>
@@ -47,16 +48,14 @@ export default {
     this.initPokedexInformation();
   },
   computed: {
-    ...mapState("info", ["pokemonLists"]),
+    ...mapState("info", ["pokemonLists", "isOwner"]),
     returnPokedexList() {
-      console.log("return pokedex:--> ", this.pokemonLists); // eslint-disable-line
       return this.pokemonLists || [];
     }
   },
   methods: {
     ...mapActions("info", ["getPokedexListAction"]),
     initPokedexInformation() {
-      console.log("IN Information:--> ", this.$route.query.id); // eslint-disable-line
       if (this.$route.query.id) {
         this.getPokedexListAction(this.$route.query.id);
       }

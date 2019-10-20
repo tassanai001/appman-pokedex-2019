@@ -48,7 +48,6 @@ export default {
         username: param.username,
         password: param.password
       };
-      axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
       axios.instance
         .post("/login", request)
         .then(response => {

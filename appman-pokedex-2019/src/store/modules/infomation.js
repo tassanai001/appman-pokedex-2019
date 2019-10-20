@@ -3,12 +3,14 @@ import axios from "../axios";
 export default {
   namespaced: true,
   state: {
-    pokemonLists: []
+    pokemonLists: [],
+    isOwner: null
   },
   mutations: {
     UPDATE_POKEDEXINFO_MUTATION(state, response) {
       if (response.data.pokemonLists) {
         state.pokemonLists = response.data.pokemonLists;
+        state.isOwner = response.data.isOwner;
       }
     }
   },
