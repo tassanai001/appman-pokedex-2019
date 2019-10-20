@@ -30,7 +30,7 @@ router.post("/signup", async function(req, res, next) {
   if (!user) {
     const newUser = new UserModel({ username, password });
     await newUser.save();
-    res.status(201).send(newUser);
+    res.status(201).send("create new user done !");
   } else {
     res.status(400).send("username exists!");
   }
@@ -81,7 +81,7 @@ router.get("/pokedexbyuserid/:userid", requireJWTAuth, async function(
 });
 
 router.post("/pokedexlists", requireJWTAuth, async function(req, res) {
-  const pokeDexesResults = await UserModel.find().select('username _id');
+  const pokeDexesResults = await UserModel.find().select("username _id");
   console.log("results:--> ", pokeDexesResults);
   if (pokeDexesResults.length > 0) {
     res.status(200).send(pokeDexesResults);

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+import store from "./store/index";
 import App from "./App.vue";
 import Login from "./Login.vue";
 import Signup from "./Signup.vue";
@@ -28,5 +29,6 @@ const router = new VueRouter({
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount("#app");

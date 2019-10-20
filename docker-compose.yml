@@ -10,50 +10,51 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - BACKEND_BASEURL=http://appman-pokedex-2019-backend:3000
+      - VUE_APP_BACKEND_BASEURL=http://backend:3000
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
       - CHOKIDAR_INTERVAL=100
       - YOUR_APP_WEB_HTTP_PORT=8080
     ports:
       - "8080:8080"
+    links:
+      - backend
     networks:
       - appman-pokedex-network
-    # depends_on:
-    #   - appman-pokedex-2019-backend
+    depends_on:
+      - backend
     deploy:
       replicas: 1
 
-  # appman-pokedex-2019-backend:
-  #   build:
-  #     context: ./backend
-  #   volumes:
-  #     - ./backend:/project
-  #     - /project/node_modules/
-  #   environment:
-  #     - MONGO_INITDB_ROOT_USERNAME=admin
-  #     - MONGO_INITDB_ROOT_PASSWORD=BCvKr*jAFVae3u6-
-  #     - MONGO_INITDB_DATABASE=server
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - appman-pokedex-network
-  #   depends_on:
-  #     - appman-pokedex-2019-db
-  #   deploy:
-  #     replicas: 1
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/project
+      - /project/node_modules/
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=BCvKr*jAFVae3u6-
+      - MONGO_INITDB_DATABASE=server
+    ports:
+      - "3000:3000"
+    networks:
+      - appman-pokedex-network
+    depends_on:
+      - appman-pokedex-2019-db
+    deploy:
+      replicas: 1
 
-  # appman-pokedex-2019-db:
-  #   image: mongo:3.4-xenial
-  #   restart: always
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - appman-pokedex-2019-db-data:/data/db
-  #   networks:
-  #     - appman-pokedex-network
+  appman-pokedex-2019-db:
+    image: mongo:3.4-xenial
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - appman-pokedex-2019-db-data:/data/db
+    networks:
+      - appman-pokedex-network
 
-  
 volumes:
   appman-pokedex-2019-db-data:
 
