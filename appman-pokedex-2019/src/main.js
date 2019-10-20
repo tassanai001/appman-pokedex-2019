@@ -28,16 +28,13 @@ const router = new VueRouter({
 // Now the app has started!
 
 router.beforeEach((to, from, next) => {
-  console.log("store.state:---> ", to.path); // eslint-disable-line
   if (!store.state.accessToken) {
     next("/login");
   }
   if (to.path === "/addpokedex/") {
     store.dispatch("AuthorizedAddpokedex", to.query.pokedexId);
     setTimeout(function() {
-      console.log("store.state:---> ", store.state.isAccess); // eslint-disable-line
       if (!store.state.isAccess) {
-        console.log("store.state:---> FUCK FUCk"); // eslint-disable-line
         next("/pokedex");
       } else {
         next();

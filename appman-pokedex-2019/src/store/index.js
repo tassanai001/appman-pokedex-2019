@@ -24,14 +24,12 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_STATUS_AUTHORIZED_MUTATION(state, response) {
       if (response.data) {
-        console.log("555:--> ", response.data.isOwner); // eslint-disable-line
         state.isAccess = response.data.isOwner;
       }
     }
   },
   actions: {
     AuthorizedAddpokedex({ commit }, id) {
-      console.log("Id:--> ", id); //eslint-disable-line
       Object.assign(axios.instance.defaults, {
         headers: { authorization: localStorage.getItem("TOKEN") }
       });
@@ -39,7 +37,6 @@ export default new Vuex.Store({
       axios.instance
         .get(query)
         .then(response => {
-          console.log("sdfsdf:---> ", response); //eslint-disable-line
           commit("UPDATE_STATUS_AUTHORIZED_MUTATION", response);
         })
         .catch(e => {

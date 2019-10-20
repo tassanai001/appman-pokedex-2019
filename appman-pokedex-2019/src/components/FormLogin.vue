@@ -51,7 +51,6 @@ export default {
   methods: {
     ...mapActions("users", ["signinAction"]),
     signIn() {
-      console.log("IN signIn"); // eslint-disable-line
       if (this.username !== "" && this.password !== "") {
         const param = {
           username: this.username,
