@@ -2,84 +2,35 @@
   <div class="pokedex">
     <router-link to="/pokedex">Back</router-link>
     <h1>
-      Pokedex #1
-      <router-link to="/addpokedex/?pokedexId=16" class="add-pokemon">Add Pokemon</router-link>
+      Pokedex #{{$route.query.index}}
+      <router-link
+        :to="`/addpokedex/?pokedexId=${$route.query.id}&index=${$route.query.index}`"
+        class="add-pokemon"
+      >Add Pokemon</router-link>
     </h1>
     <ul>
-      <li>
+      <li v-for="(item, index) in returnPokedexList" :key="index">
         <div class="pokemon">
           <div class="image">
-            <img src="https://images.pokemontcg.io/ex8/98.png" alt="Deoxys ex" />
+            <img :src="item.imageUrl" :alt="item.name" />
           </div>
           <div class="body">
-            <h2>Deoxys ex</h2>
+            <h2>{{item.name}}</h2>
             <p>
               TYPE:
-              <span>Psychic</span>
+              <span>{{item.type}}</span>
             </p>
             <p>
               HP:
-              <span>110</span>
+              <span>{{item.hp}}</span>
             </p>
             <p>
               ATK:
-              <span>50</span>
+              <span>{{item.attack}}</span>
             </p>
             <p>
               RES:
-              <span>0</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="pokemon">
-          <div class="image">
-            <img src="https://images.pokemontcg.io/xyp/XY05.png" alt="Xerneas" />
-          </div>
-          <div class="body">
-            <h2>Xerneas</h2>
-            <p>
-              TYPE:
-              <span>Fairy</span>
-            </p>
-            <p>
-              HP:
-              <span>130</span>
-            </p>
-            <p>
-              ATK:
-              <span>100</span>
-            </p>
-            <p>
-              RES:
-              <span>20</span>
-            </p>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="pokemon">
-          <div class="image">
-            <img src="https://images.pokemontcg.io/ex8/102.png" alt="Rayquaza ex" />
-          </div>
-          <div class="body">
-            <h2>Rayquaza ex</h2>
-            <p>
-              TYPE:
-              <span>Colorless</span>
-            </p>
-            <p>
-              HP:
-              <span>100</span>
-            </p>
-            <p>
-              ATK:
-              <span>50</span>
-            </p>
-            <p>
-              RES:
-              <span>40</span>
+              <span>{{item.resistance}}</span>
             </p>
           </div>
         </div>
@@ -89,10 +40,27 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "InformationList",
   mounted() {
-    console.log("IN Information:--> ", this.$route.query.id); // eslint-disable-line
+    this.initPokedexInformation();
+  },
+  computed: {
+    ...mapState("info", ["pokemonLists"]),
+    returnPokedexList() {
+      console.log("return pokedex:--> ", this.pokemonLists); // eslint-disable-line
+      return this.pokemonLists || [];
+    }
+  },
+  methods: {
+    ...mapActions("info", ["getPokedexListAction"]),
+    initPokedexInformation() {
+      console.log("IN Information:--> ", this.$route.query.id); // eslint-disable-line
+      if (this.$route.query.id) {
+        this.getPokedexListAction(this.$route.query.id);
+      }
+    }
   }
 };
 </script>

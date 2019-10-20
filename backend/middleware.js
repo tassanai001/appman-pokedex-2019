@@ -25,7 +25,7 @@ const requireJWTAuth = passport.authenticate("jwt", { session: false });
 const loginMiddleware = async (req, res, next) => {
   const user = await existingUser(req);
   if (user) next();
-  else res.send("Wrong username and password");
+  else res.status(401).send("Wrong username and password");
 };
 
 const findByUsername = async payload => {

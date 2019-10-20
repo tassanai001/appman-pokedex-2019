@@ -4,10 +4,27 @@ const router = express.Router();
 const middleWare = require("../middleware");
 const Pokemons = require("../models/pokemon").model;
 
+const formatResult = values => {
+  return values.map(val => {
+    return {
+      _id: val._id,
+      name: val.name,
+      imageUrl: val.imageUrl,
+      hp: val.hp,
+      attack: val.attacks.length * 50,
+      resistance: val.attacks.length * 20,
+      type: val.type,
+      createdAt: val.createdAt,
+      updatedAt: val.updatedAt
+    };
+  });
+};
+
 const searchPokeDexByName = async name => {
   const query = `.*${name}.*`;
   const result = await Pokemons.find({ name: { $regex: query } });
-  return result;
+  const newFormat = formatResult(result);
+  return newFormat;
 };
 
 const searchPokeDexByType = async type => {
@@ -21,8 +38,9 @@ router.get("/", middleWare.requireJWTAuth, function(req, res, next) {
 });
 
 router.get("/lists", middleWare.requireJWTAuth, async (req, res) => {
-  const result = await Pokemons.find().limit(10);
-  res.status(200).send(result);
+  const result = await Pokemons.find().limit(20);
+  const newFormat = formatResult(result);
+  res.status(200).send(newFormat);
 });
 
 router.get("/search/:query", middleWare.requireJWTAuth, async (req, res) => {

@@ -1,7 +1,7 @@
 <template>
   <div class="signup">
     <h1>Create Pokemon Trainer Account</h1>
-    <form>
+    <form @submit.prevent="signup">
       <div class="form-group">
         <label for="username">Username</label>
         <input
@@ -27,7 +27,7 @@
         />
       </div>
       <div>
-        <button class="action" @click.stop.prevent="signup">Create Account</button>
+        <button class="action" type="submit" @click="signup">Create Account</button>
       </div>
       <router-link to="/login">Already have an account?</router-link>
     </form>

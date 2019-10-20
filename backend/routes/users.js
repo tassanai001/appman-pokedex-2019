@@ -6,6 +6,22 @@ const requireJWTAuth = require("../middleware").requireJWTAuth;
 const UserModel = require("../models/user").model;
 const PokemonsModel = require("../models/pokemon").model;
 
+const formatResult = values => {
+  return values.map(val => {
+    return {
+      _id: val._id,
+      name: val.name,
+      imageUrl: val.imageUrl,
+      hp: val.hp,
+      attack: val.attacks.length * 50,
+      resistance: val.attacks.length * 20,
+      type: val.type,
+      createdAt: val.createdAt,
+      updatedAt: val.updatedAt
+    };
+  });
+};
+
 const pokedexesManager = async (req, result) => {
   const index = result.pokemonId.indexOf(req.body.pokemonId);
   if (index === -1) {
@@ -47,12 +63,12 @@ router.post("/addpokemon", requireJWTAuth, async function(req, res) {
     if (!findUser) {
       const params = { userId: req.user, pokemonId: [req.body.pokemonId] };
       params.updatedAt = new Date();
-      const assignPokemonResult = await new UserModel(params).save();
-      res.status(200).send(assignPokemonResult);
+      await new UserModel(params).save();
+      res.status(200).send("success !");
     } else {
       const newPokedexParam = await pokedexesManager(req, findUser);
-      const assignPokemonResult = await new UserModel(newPokedexParam).save();
-      res.status(200).send(assignPokemonResult);
+      await new UserModel(newPokedexParam).save();
+      res.status(200).send("success !");
     }
   } else {
     res.status(400).send("pokemonId Incorrect !");
@@ -71,9 +87,10 @@ router.get("/pokedexbyuserid/:userid", requireJWTAuth, async function(
       res.status(404).send("User Not Found!");
     } else {
       const pokemonLists = await PokemonsModel.find({
-        _id: { $in: [results.pokemonId] }
+        _id: { $in: results.pokemonId }
       });
-      res.status(200).send({ pokemonLists: pokemonLists });
+      const reformat = formatResult(pokemonLists);
+      res.status(200).send({ pokemonLists: reformat });
     }
   } else {
     res.status(404).send("Not Found!");
@@ -82,7 +99,6 @@ router.get("/pokedexbyuserid/:userid", requireJWTAuth, async function(
 
 router.post("/pokedexlists", requireJWTAuth, async function(req, res) {
   const pokeDexesResults = await UserModel.find().select("username _id");
-  console.log("results:--> ", pokeDexesResults);
   if (pokeDexesResults.length > 0) {
     res.status(200).send(pokeDexesResults);
   } else {

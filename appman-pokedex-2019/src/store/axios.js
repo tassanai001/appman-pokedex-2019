@@ -11,4 +11,12 @@ const instance = axios.create({
   baseURL: BASE_URL,
   headers
 });
-export default instance;
+
+const updateToKEN = () => {
+  const TOKEN = localStorage.getItem("TOKEN");
+  Object.assign(instance.defaults, { headers: { authorization: TOKEN } });
+};
+export default {
+  instance,
+  updateToKEN: updateToKEN
+};
